@@ -24,7 +24,8 @@ public class TextCompressor {
             
 //            h.encode("source.txt", "encode.txt");
 //            h.decode("encode.txt", "decode.txt");
-            
+
+            b.setBlockSize(7);
             b.encode("source.txt", "encode.txt");
             b.decode("encode.txt", "decode.txt");
         } catch (IOException ex) {

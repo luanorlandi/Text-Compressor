@@ -19,9 +19,11 @@ import java.util.Arrays;
  */
 public class BWT extends Compressor {
     private int blockSize;      /* characters count for each block */
+    private final String eof;
     
     public BWT() {
         blockSize = 8;
+        eof = "\u001a";
     }
     
     /* rotate to left a string s for r times */
@@ -32,6 +34,8 @@ public class BWT extends Compressor {
     }
     
     private String encodeBlock(String original) {
+        original += eof;
+        
         String block;
         String rotation[] = new String[original.length()];
         
@@ -48,6 +52,31 @@ public class BWT extends Compressor {
         }
         
         return block;
+    }
+    
+    private String decodeBlock(String code) {
+        String rotation[] = new String[code.length()];
+        
+        for(int i = 0; i < rotation.length; i++) {
+            rotation[i] = "";
+        }
+        
+        for(int i = 0; i < rotation.length; i++) {
+            for(int j = 0; j < rotation.length; j++) {
+                rotation[j] = code.charAt(j) + rotation[j];
+            }
+            Arrays.sort(rotation);
+        }
+        
+        for(String rot : rotation) {
+            if(rot.endsWith(eof)) {
+                return rot.substring(0, rot.length() - 1);
+            }
+        }
+        
+        System.err.println("Did not detected delimiter in block: " + code);
+        System.exit(-1);
+        return null;
     }
 
     @Override
@@ -70,6 +99,7 @@ public class BWT extends Compressor {
         /* header */
         fileOutput.write(Integer.SIZE, blockSize);
         
+        /* convert byte[] to String */
         fileTextString = new String(fileText, StandardCharsets.UTF_8);
         
         /* write blocks */
@@ -79,7 +109,6 @@ public class BWT extends Compressor {
             for(int j = 0; j < block.length(); j++) {
                 fileOutput.write(block.charAt(j));
             }
-            System.err.println(block);
         }
         
         /* rest of the text */
@@ -90,7 +119,6 @@ public class BWT extends Compressor {
             for(int j = 0; j < block.length(); j++) {
                 fileOutput.write(block.charAt(j));
             }
-            System.err.println(block);
         }
         
         fileInput.close();
@@ -99,15 +127,46 @@ public class BWT extends Compressor {
 
     @Override
     public void decode(String input, String output) throws IOException {
-        BitInputStream fileInput;
+        BitInputStream fileBitInput;
+        FileInputStream fileInput;
         FileOutputStream fileOutput;
         
-        fileInput = new BitInputStream(input);
+        byte[] fileText;
+        
+        int i;
+        String block;
+        String fileTextString;
+        
+        fileBitInput = new BitInputStream(input);
+        fileInput = new FileInputStream(input);
         fileOutput = new FileOutputStream(output);
         
         /* header */
-        blockSize = fileInput.readBits(Integer.SIZE);
+        blockSize = fileBitInput.readBits(Integer.SIZE);
+        fileBitInput.close();
         
+        /* skip header */
+        fileInput.skip(Integer.BYTES);
+        fileText = new byte[fileInput.available()];
+        fileInput.read(fileText);
+        
+        /* convert byte[] to String */
+        fileTextString = new String(fileText, StandardCharsets.UTF_8);
+        
+        /* read blocks */
+        for(i = 0; i+blockSize+1 <= fileTextString.length(); i += blockSize+1) {
+            block = decodeBlock(fileTextString.substring(i, i+blockSize+1));
+            
+            fileOutput.write(block.getBytes(StandardCharsets.UTF_8));
+        }
+        
+        /* rest of the text */
+        if(i < fileTextString.length()) {
+            block = decodeBlock(
+                    fileTextString.substring(i, fileTextString.length()));
+            
+            fileOutput.write(block.getBytes(StandardCharsets.UTF_8));
+        }
         
         fileInput.close();
         fileOutput.close();
