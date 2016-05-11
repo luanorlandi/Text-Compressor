@@ -19,11 +19,11 @@ import java.util.Arrays;
  */
 public class BWT extends Compressor {
     private int blockSize;      /* characters count for each block */
-    private final String eof;
+    private final String eof;   /* delimiter for blocks */
     
     public BWT() {
-        blockSize = 8;
-        eof = "\u001a";
+        blockSize = 8;          /* default */
+        eof = "\u001a";         /* character EOF */
     }
     
     /* rotate to left a string s for r times */
@@ -33,12 +33,14 @@ public class BWT extends Compressor {
         return tmp.substring(r, r+s.length());
     }
     
+    /* permute a given block for BWT */
     private String encodeBlock(String original) {
         original += eof;
         
         String block;
         String rotation[] = new String[original.length()];
         
+        /* build table (square matrix of char) */
         for(int i = 0; i < rotation.length; i++) {
             rotation[i] = rotate(original, i);
         }
@@ -47,6 +49,7 @@ public class BWT extends Compressor {
         
         block = "";
         
+        /* get last column as string */
         for(String rot : rotation) {
             block += rot.substring(rot.length() - 1); 
         }
@@ -54,31 +57,38 @@ public class BWT extends Compressor {
         return block;
     }
     
+    /* undo a given permutated block */
     private String decodeBlock(String code) {
         String rotation[] = new String[code.length()];
         
+        /* init table */
         for(int i = 0; i < rotation.length; i++) {
             rotation[i] = "";
         }
         
+        /* build table */
         for(int i = 0; i < rotation.length; i++) {
+            /* build a column (always the fist one) */
             for(int j = 0; j < rotation.length; j++) {
                 rotation[j] = code.charAt(j) + rotation[j];
             }
             Arrays.sort(rotation);
         }
         
+        /* search for the original string which ends with delimiter */
         for(String rot : rotation) {
             if(rot.endsWith(eof)) {
                 return rot.substring(0, rot.length() - 1);
             }
         }
         
+        /* something wrong, probably not a given BWT encoded file */
         System.err.println("Did not detected delimiter in block: " + code);
         System.exit(-1);
         return null;
     }
 
+    /* encode file input to output */
     @Override
     public void encode(String input, String output) throws IOException {
         FileInputStream fileInput;
@@ -93,6 +103,7 @@ public class BWT extends Compressor {
         fileInput = new FileInputStream(input);
         fileOutput = new BitOutputStream(output);
         
+        /*  */
         fileText = new byte[fileInput.available()];
         fileInput.read(fileText);
         
@@ -125,6 +136,7 @@ public class BWT extends Compressor {
         fileOutput.close();
     }
 
+    /* decode file input to output */
     @Override
     public void decode(String input, String output) throws IOException {
         BitInputStream fileBitInput;

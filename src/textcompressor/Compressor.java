@@ -16,7 +16,9 @@ public abstract class Compressor {
         
     }
     
+    /* encode file input to output */
     public abstract void encode(String input, String output) throws IOException;
     
+    /* decode file input to output */
     public abstract void decode(String input, String output) throws IOException;
 }
