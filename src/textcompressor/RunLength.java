@@ -30,8 +30,8 @@ public class RunLength extends Compressor {
         int length, i;
         int bitLength;      /* number of bits for each length */
         
+        /* read input */
         fileInput = new FileInputStream(input);
-        fileOutput = new BitOutputStream(output);
         
         fileText = new byte[fileInput.available()];
         fileInput.read(fileText);
@@ -39,7 +39,13 @@ public class RunLength extends Compressor {
         bitLength = getHighestLength(fileText, fileText.length);
         bitLength = Integer.toBinaryString(bitLength).length();
         
+        fileInput.close();
+        
+        /* write output */
+        fileOutput = new BitOutputStream(output);
+        
         /* header */
+        fileOutput.write(Byte.SIZE, headerRunLength);
         fileOutput.write(Integer.SIZE, bitLength);
         
         length = 1;
@@ -58,7 +64,6 @@ public class RunLength extends Compressor {
         fileOutput.write(bitLength, length);
         fileOutput.write(Byte.SIZE, fileText[i]);
         
-        fileInput.close();
         fileOutput.close();
     }
     
@@ -73,13 +78,15 @@ public class RunLength extends Compressor {
         int bitLength;      /* number of bits for each length */
         
         fileInput = new BitInputStream(input);
-        fileOutput = new FileOutputStream(output);
         
         /* header */
+        fileInput.skip(Byte.BYTES);
         bitLength = fileInput.readBits(Integer.SIZE);
         
         length = fileInput.readBits(bitLength);
         character = fileInput.readBits(Byte.SIZE);
+        
+        fileOutput = this.getTemporaryFile();
         
         while(length > 0) {
             for(int i = 0; i < length; i++) {
@@ -92,6 +99,9 @@ public class RunLength extends Compressor {
         
         fileInput.close();
         fileOutput.close();
+        
+        /* apply decode on output */
+        this.removeTemporaryFile(output);
     }
     
     /* calculate the maximum length */

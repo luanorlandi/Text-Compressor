@@ -100,14 +100,19 @@ public class BWT extends Compressor {
         String block;
         String fileTextString;
         
+        /* read input */
         fileInput = new FileInputStream(input);
-        fileOutput = new BitOutputStream(output);
         
-        /*  */
         fileText = new byte[fileInput.available()];
         fileInput.read(fileText);
         
+        fileInput.close();
+        
+        /* write output */
+        fileOutput = new BitOutputStream(output);
+        
         /* header */
+        fileOutput.write(Byte.SIZE, headerBWT);
         fileOutput.write(Integer.SIZE, blockSize);
         
         /* convert byte[] to String */
@@ -132,7 +137,6 @@ public class BWT extends Compressor {
             }
         }
         
-        fileInput.close();
         fileOutput.close();
     }
 
@@ -149,21 +153,29 @@ public class BWT extends Compressor {
         String block;
         String fileTextString;
         
+        /* read input */
         fileBitInput = new BitInputStream(input);
         fileInput = new FileInputStream(input);
-        fileOutput = new FileOutputStream(output);
         
         /* header */
+        fileBitInput.skip(Byte.BYTES);
         blockSize = fileBitInput.readBits(Integer.SIZE);
         fileBitInput.close();
         
         /* skip header */
+        fileInput.skip(Byte.BYTES);
         fileInput.skip(Integer.BYTES);
+        
         fileText = new byte[fileInput.available()];
         fileInput.read(fileText);
         
         /* convert byte[] to String */
         fileTextString = new String(fileText, StandardCharsets.UTF_8);
+        
+        fileInput.close();
+        
+        /* write output */
+        fileOutput = new FileOutputStream(output);
         
         /* read blocks */
         for(i = 0; i+blockSize+1 <= fileTextString.length(); i += blockSize+1) {
@@ -180,7 +192,6 @@ public class BWT extends Compressor {
             fileOutput.write(block.getBytes(StandardCharsets.UTF_8));
         }
         
-        fileInput.close();
         fileOutput.close();
     }
 

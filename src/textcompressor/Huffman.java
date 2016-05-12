@@ -33,13 +33,18 @@ public class Huffman extends Compressor {
         byte[] fileText;
         Map<Integer, String> code;
         
+        /* read input */
         fileInput = new FileInputStream(input);
-        fileOutput = new BitOutputStream(output);
         
         fileText = new byte[fileInput.available()];
         fileInput.read(fileText);
         
         code = getCode(fileText);
+        
+        fileInput.close();
+        
+        /* write output */
+        fileOutput = new BitOutputStream(output);
         
         writeHeader(fileOutput, fileText.length, code);
         
@@ -48,7 +53,6 @@ public class Huffman extends Compressor {
             fileOutput.write(value.length(), Integer.parseInt(value, 2));
         }
         
-        fileInput.close();
         fileOutput.close();
     }
 
@@ -61,22 +65,17 @@ public class Huffman extends Compressor {
         Map<String, Integer> code;
         
         fileInput = new BitInputStream(input);
-        fileOutput = new FileOutputStream(output);
         
-        int charCount = fileInput.readBits(Integer.SIZE);
+        
+        fileInput.skip(Byte.BYTES);                /* skip header indentifier */
+        int charCount = fileInput.readBits(Integer.SIZE);   /* get char count */
         code = readHeader(fileInput);
         
-//        System.err.println("+++++++++");
-//        for (Map.Entry<String, Integer> entry : code.entrySet()) {
-//            String key = entry.getKey();
-//            int value = entry.getValue();
-//            
-//            System.err.println("key: " + key + " || value: " + value);
-//        }
-//        System.err.println("+++++++++");
+        fileOutput = this.getTemporaryFile();
         
         int i = 0;
         String buffer = "";
+        
         while(i < charCount) {
             buffer += fileInput.readBits(1);
 
@@ -89,6 +88,9 @@ public class Huffman extends Compressor {
         
         fileInput.close();
         fileOutput.close();
+        
+        /* apply decode on output */
+        this.removeTemporaryFile(output);
     }
     
     /* sort 2 vectors, priority to 2nd vector */
@@ -215,6 +217,8 @@ public class Huffman extends Compressor {
     
     private void writeHeader(BitOutputStream fileOutput,
             int charCount, Map<Integer, String> code) {
+        
+        fileOutput.write(Byte.SIZE, headerHuffman);
         
         /* chracters count in file */
         fileOutput.write(Integer.SIZE, charCount);
