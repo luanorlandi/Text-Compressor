@@ -49,7 +49,16 @@ public class Huffman extends Compressor {
         writeHeader(fileOutput, fileText.length, code);
         
         for(int i = 0; i < fileText.length; i++) {
-            String value = code.get((int) fileText[i]);
+            String value;
+            
+            /* byte range [-128, 127] */
+            /* frequency range [0, 255] */
+            if(fileText[i] >= 0) {
+                value = code.get((int) fileText[i]);
+            } else {
+                value = code.get((int) fileText[i]+maxChar);
+            }
+            
             fileOutput.write(value.length(), Integer.parseInt(value, 2));
         }
         
@@ -129,7 +138,14 @@ public class Huffman extends Compressor {
         }
         
         for(i = 0; i < text.length; i++) {
-            frequency.set(text[i], 1 + frequency.get(text[i]));
+            /* byte range [-128, 127] */
+            /* frequency range [0, 255] */
+            if(text[i] >= 0) {
+                frequency.set(text[i], 1 + frequency.get(text[i]));
+            } else {
+                frequency.set(text[i]+maxChar, 1 + frequency.get(text[i]+maxChar));
+            }
+            
         }
 
         return frequency;
@@ -188,12 +204,6 @@ public class Huffman extends Compressor {
             /* sum */
             tree.get(0).addAll(characters);
             frequency.set(0, freq + frequency.get(0));
-            
-//            System.err.println("-----");
-//            for(int i = 0; i < frequency.size(); i++) {
-//                System.err.println(Arrays.toString(tree.get(i).toArray()) + " " + frequency.get(i));
-//            }
-//            System.err.println("-----");
         }
         
         return code;
