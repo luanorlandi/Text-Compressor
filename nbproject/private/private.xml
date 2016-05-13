@@ -2,6 +2,14 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/textcompressor/Huffman.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/textcompressor/TextCompressor.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/textcompressor/RunLength.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/textcompressor/Compressor.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/bit/BitOutputStream.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/textcompressor/BWT.java</file>
+            <file>file:/D:/Orlandi/Dropbox/Git/Text-Compressor/src/bit/BitInputStream.java</file>
+        </group>
     </open-files>
 </project-private>
