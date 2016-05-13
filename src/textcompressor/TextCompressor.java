@@ -1,3 +1,12 @@
+ /**
+ * Copyright (C) 2016 Luan Gustavo Orlandi
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ * 
+ * @see https://github.com/luanorlandi/Text-Compressor for further details
+ */
+
 package textcompressor;
 
 import java.io.IOException;
@@ -8,8 +17,6 @@ import org.docopt.Docopt;
  *
  * @author Orlandi
  */
-
-
 public class TextCompressor {
     private static final String doc =
     "Usage: TextCompressor [-h show help] OPERATION (-i FILE_INPUT) (-o FILE_OUTPUT) [--bwt=BOOLEAN] [--txtblck=INTEGER] [--huffman=BOOLEAN] [--runl=BOOLEAN]\n"

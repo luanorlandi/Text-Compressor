@@ -1,3 +1,12 @@
+ /**
+ * Copyright (C) 2016 Luan Gustavo Orlandi
+ *
+ * This software may be modified and distributed under the terms
+ * of the MIT license.  See the LICENSE file for details.
+ * 
+ * @see https://github.com/luanorlandi/Text-Compressor for further details
+ */
+
 package textcompressor;
 
 import java.io.FileInputStream;
