@@ -133,7 +133,7 @@ public class TextCompressor {
                                 break;
                         }
                     }
-                    System.out.println("No more encode indentified. "
+                    System.out.println("No more encode identified. "
                             + "Decoding finished.");
                     
                     break;
@@ -146,20 +146,5 @@ public class TextCompressor {
             System.out.println("I/O exception error: " + ex.getMessage());
             System.err.println(ex.getMessage());
         }
-        
-        /* manual input */
-//        try {
-//            b.setBlockSize(7);
-//            b.encode("source.txt", "encode.txt");
-//            h.encode("encode.txt", "encode.txt");
-//            rl.encode("encode.txt", "encode.txt");
-//            
-//            rl.decode("encode.txt", "decode.txt");
-//            h.decode("decode.txt", "decode.txt");
-//            b.decode("decode.txt", "decode.txt");
-//
-//        } catch (IOException ex) {
-//            System.err.println(ex.getMessage());
-//        }
     }
 }
