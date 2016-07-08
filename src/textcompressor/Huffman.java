@@ -155,6 +155,7 @@ public class Huffman extends Compressor {
         return frequency;
     }
 
+    /* with a huffman encoded file, get all characters codes in a dictionary */
     private Map<Integer, String> getCode(byte[] fileText) {
         ArrayList<ArrayList<Integer>> tree;
         ArrayList<Long> frequency;
@@ -229,6 +230,7 @@ public class Huffman extends Compressor {
         System.err.println("=====");
     }
     
+    /* put codes and amount of characters */
     private void writeHeader(BitOutputStream fileOutput,
             int charCount, Map<Integer, String> code) {
         
@@ -250,6 +252,7 @@ public class Huffman extends Compressor {
         }
     }
     
+    /* read codes and return */
     private Map<String, Integer> readHeader(BitInputStream fileInput)
             throws IOException {
         
