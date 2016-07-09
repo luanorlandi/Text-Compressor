@@ -1,4 +1,4 @@
-# Text-Compressor
+# TextCompressor
 
 This is a multimidia project made to study compression rate of text files with the following algorithms:
 
@@ -16,16 +16,16 @@ You can download the stable version 1.0.0 in the tab release, there is also a di
 
 ### How to use
 
-Text Compressor performs compression and decompression operations indicated by argument on the command line. For example, you can compress with Huffman:
+TextCompressor performs compression and decompression operations indicated by argument on the command line. For example, you can compress with Huffman:
 
 ```
 TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=false --huffman=true --runl=false
 ```
 
-BWT and Run-Lenght:
+BWT and Run-Length:
 
 ```
-TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=true --txtblck=8 --huffman=true --runl=false
+TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=true --txtblck=8 --huffman=false --runl=true
 ```
 
 To decompress, use:
@@ -51,7 +51,7 @@ Three kinds of files were used, with a size of 50 MB, 100 MB and 200 MB each one
 * Proteins sequences
 * English texts
 
-For multiple compressions to the same file, the order applied it's BWT first, then Run-Lenght and then Huffman.
+For multiple compressions to the same file, the order applied it's BWT first, then Run-Length and then Huffman.
 
 Isolated Huffman coding had the best results, obtaining very satisfactory compression rates that is independent of the file size (horizontal lines on the chart).
 
@@ -68,12 +68,11 @@ The following libraries was useful:
 
 ### License
 
-[MIT][license]
+[MIT](LICENSE)
 
-[jre]:[http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html]
-[jdk]:[http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html]
-[sourceFiles]:[http://pizzachili.dcc.uchile.cl/texts.html]
-[docopt]:[https://github.com/docopt/docopt.java]
-[bitInput]:[https://www.cs.duke.edu/courses/cps100e/current/assign/huff/code/BitInputStream.html]
-[bitOutput]:[https://www.cs.duke.edu/csed/poop/huff/fall06/code/BitOutputStream.java]
-[license]:(LICENSE)
+[jre]:<http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html>
+[jdk]:<http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html>
+[sourceFiles]:<http://pizzachili.dcc.uchile.cl/texts.html>
+[docopt]:<https://github.com/docopt/docopt.java>
+[bitInput]:<https://www.cs.duke.edu/courses/cps100e/current/assign/huff/code/BitInputStream.html>
+[bitOutput]:<https://www.cs.duke.edu/csed/poop/huff/fall06/code/BitOutputStream.java>
