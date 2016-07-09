@@ -16,22 +16,28 @@ You can download the stable version 1.0.0 in the tab release, there is also a di
 
 ### How to use
 
-TextCompressor performs compression and decompression operations indicated by argument on the command line. For example, you can compress with Huffman:
+TextCompressor performs compression and decompression operations indicated by argument on the command line. For example, you can compress with Huffman (assuming you java added to your environment variable PATH):
 
 ```
-TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=false --huffman=true --runl=false
+java -jar TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=false --huffman=true --runl=false
 ```
 
 BWT and Run-Length:
 
 ```
-TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=true --txtblck=8 --huffman=false --runl=true
+java -jar TextCompressor.jar encode -i source.txt -o  encode.txt --bwt=true --txtblck=8 --huffman=false --runl=true
 ```
 
 To decompress, use:
 
 ```
-TextCompressor.jar decode -i encode.txt -o  decode.txt
+java -jar TextCompressor.jar decode -i encode.txt -o  decode.txt
+```
+
+You can use the following command to see the usage:
+
+```
+java -jar TextCompressor.jar -h
 ```
 
 TextCompressor will find out in the header of the file which compressions were previously applied, so there is no need to indicate which algorithm to use.

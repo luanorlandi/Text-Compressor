@@ -21,13 +21,13 @@ public class TextCompressor {
     private static final String doc =
     "Usage: TextCompressor [-h show help] OPERATION (-i FILE_INPUT) (-o FILE_OUTPUT) [--bwt=BOOLEAN] [--txtblck=INTEGER] [--huffman=BOOLEAN] [--runl=BOOLEAN]\n"
     + "\n"
-    + "-h --help    show this"
-    + "-i FILE_INPUT"
-    + "-o FILE_OUTPUT"
-    + "--bwt BOOLEAN"
-    + "--txtblck INTEGER"
-    + "--huffman BOOLEAN"
-    + "--runl BOOLEAN"
+    + "-h --help    show this\n"
+    + "-i FILE_INPUT\n"
+    + "-o FILE_OUTPUT\n"
+    + "--bwt BOOLEAN\n"
+    + "--txtblck INTEGER\n"
+    + "--huffman BOOLEAN\n"
+    + "--runl BOOLEAN\n"
     + "\n";
     
     public static void main(String[] args) {
