@@ -2,5 +2,6 @@
 *.o
 *.exe
 *.txt
+*.pdf
 /build/
 /dist/
