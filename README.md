@@ -34,7 +34,7 @@ To decompress, use:
 TextCompressor.jar decode -i encode.txt -o  decode.txt
 ```
 
-TextCompressor will find out in the header of the file which compressions were previously applied , so there is no need to indicate which algorithm to use.
+TextCompressor will find out in the header of the file which compressions were previously applied, so there is no need to indicate which algorithm to use.
 
 ### Results
 
