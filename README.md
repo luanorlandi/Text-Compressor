@@ -61,13 +61,13 @@ For multiple compressions to the same file, the order applied it's BWT first, th
 
 Isolated Huffman coding had the best results, obtaining very satisfactory compression rates that is independent of the file size (horizontal lines on the chart).
 
-The Huffman encoding in different types of texts has efficient and fast results, while other encodings need combinations, choice of block size and favorable text field to obtain satisfactory compression. The run-length encoding after application BWT tends to increase compression, but still doesn't provide good compression ratios.
+The Huffman encoding in different types of texts has efficient and fast results, while other encodings need combinations, choice of block size and favorable text field to obtain satisfactory compression. The run-length encoding after applying BWT tends to increase compression, but still doesn't provide good compression ratios.
 
 ### Credits
 
 Project made with the assistance of Marcelo Manzato and Rafael D'Addio.
 
-The following libraries was useful:
+The following libraries were useful:
 
 * [Docopt][docopt]
 * [BitInputStream][bitInput] and [BitOutputStream][bitOutput]
